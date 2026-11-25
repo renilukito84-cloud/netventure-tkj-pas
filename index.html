@@ -536,6 +536,7 @@
   </div>
 
   <script>
+    const GOOGLE_SHEETS_WEB_APP_URL = "TEMPEL_URL_EXEC_ANDA_DI_SINI";
     const LEVELS_INFO = {
       1: { name: "Scout & Feasibility Check", focus: "Peluang Usaha TKJ & Analisis Kelayakan Usaha", points: 10, max: 40 },
       2: { name: "SWOT & Strategic Pivot", focus: "Analisis Kelayakan SWOT & Evaluasi Strategi", points: 15, max: 60 },
@@ -882,7 +883,28 @@
       return "Perlu Remedial";
     }
 
-    function showResult() {
+    function showResult() if (GOOGLE_SHEETS_WEB_APP_URL.trim() !== "") {
+  fetch(GOOGLE_SHEETS_WEB_APP_URL.trim(), {
+    method: "POST",
+    mode: "no-cors",
+    headers: { "Content-Type": "text/plain;charset=utf-8" },
+    body: JSON.stringify({
+      timestamp: new Date().toISOString(),
+      nama: state.student.name,
+      kelas: state.student.className,
+      absen_nis: state.student.number,
+      misi_tepat: `${state.correctCount}/${MISSIONS.length}`,
+      poin_level_1: state.levelScores[1],
+      poin_level_2: state.levelScores[2],
+      poin_level_3: state.levelScores[3],
+      poin_level_4: state.levelScores[4],
+      total_poin: state.score,
+      poin_maksimal: 300,
+      nilai_pas: Number(((state.score / 300) * 100).toFixed(2)),
+      predikat: getPredicate((state.score / 300) * 100)
+    })
+  });
+}{
       el.missionScreen.classList.add("hidden");
       el.resultScreen.classList.remove("hidden");
       el.progressBar.style.width = "100%";
