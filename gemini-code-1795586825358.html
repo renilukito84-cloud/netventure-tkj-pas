@@ -1,0 +1,1003 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>NETVENTURE: TKJ ENTERPRISE QUEST — Game PAS KIK</title>
+  <style>
+    :root {
+      --bg: #0b1120;
+      --bg-soft: #111827;
+      --card: #162033;
+      --card-2: #1c2840;
+      --text: #f8fafc;
+      --muted: #94a3b8;
+      --line: rgba(148, 163, 184, 0.18);
+      --accent: #38bdf8;
+      --accent-2: #22c55e;
+      --danger: #ef4444;
+      --radius: 16px;
+      --shadow: 0 18px 40px rgba(0, 0, 0, 0.35);
+    }
+
+    * {
+      box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    body {
+      margin: 0;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Ubuntu, Cantarell, sans-serif;
+      background: radial-gradient(circle at top right, rgba(56, 189, 248, 0.14), transparent 36%),
+                  radial-gradient(circle at bottom left, rgba(167, 139, 250, 0.12), transparent 36%),
+                  var(--bg);
+      color: var(--text);
+      line-height: 1.55;
+      min-height: 100vh;
+    }
+
+    .container {
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 18px 16px 48px;
+    }
+
+    .topbar {
+      background: rgba(22, 32, 51, 0.92);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 16px 18px;
+      box-shadow: var(--shadow);
+      margin-bottom: 18px;
+    }
+
+    .topbar-top {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 14px;
+    }
+
+    .brand h1 {
+      margin: 0;
+      font-size: clamp(1.15rem, 3.2vw, 1.6rem);
+      letter-spacing: 0.4px;
+      color: var(--accent);
+    }
+
+    .brand p {
+      margin: 3px 0 0;
+      color: var(--muted);
+      font-size: 0.88rem;
+    }
+
+    .hud {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+    }
+
+    @media (max-width: 640px) {
+      .hud {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    .hud-box {
+      background: var(--bg-soft);
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 10px 12px;
+    }
+
+    .hud-label {
+      font-size: 0.74rem;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .hud-value {
+      font-size: 1.15rem;
+      font-weight: 700;
+      margin-top: 2px;
+    }
+
+    .progress-wrap {
+      margin-top: 12px;
+      background: var(--bg-soft);
+      border-radius: 999px;
+      height: 10px;
+      overflow: hidden;
+      border: 1px solid var(--line);
+    }
+
+    .progress-bar {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, var(--accent), var(--accent-2));
+      transition: width 0.35s ease;
+    }
+
+    .card {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 20px;
+      box-shadow: var(--shadow);
+      margin-bottom: 18px;
+    }
+
+    .level-pills {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 16px;
+    }
+
+    .pill {
+      padding: 6px 12px;
+      border-radius: 999px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      border: 1px solid var(--line);
+      background: var(--bg-soft);
+      color: var(--muted);
+    }
+
+    .pill.active {
+      background: rgba(56, 189, 248, 0.16);
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+
+    .pill.done {
+      background: rgba(34, 197, 94, 0.15);
+      border-color: var(--accent-2);
+      color: #86efac;
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 14px;
+      margin: 16px 0;
+    }
+
+    label {
+      display: block;
+      font-size: 0.86rem;
+      color: #cbd5e1;
+      margin-bottom: 6px;
+      font-weight: 600;
+    }
+
+    input {
+      width: 100%;
+      padding: 11px 13px;
+      border-radius: 10px;
+      border: 1px solid rgba(148, 163, 184, 0.28);
+      background: var(--bg-soft);
+      color: var(--text);
+      font-size: 0.95rem;
+    }
+
+    input:focus {
+      outline: none;
+      border-color: var(--accent);
+    }
+
+    .mission-meta {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 12px;
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 4px 10px;
+      border-radius: 8px;
+      font-size: 0.8rem;
+      font-weight: 700;
+      background: rgba(167, 139, 250, 0.18);
+      color: #ddd6fe;
+      border: 1px solid rgba(167, 139, 250, 0.35);
+    }
+
+    .pts-badge {
+      display: inline-block;
+      padding: 4px 10px;
+      border-radius: 8px;
+      font-size: 0.82rem;
+      font-weight: 700;
+      background: rgba(34, 197, 94, 0.16);
+      color: #86efac;
+      border: 1px solid rgba(34, 197, 94, 0.35);
+    }
+
+    .scenario {
+      background: var(--bg-soft);
+      border-left: 4px solid var(--accent);
+      border-radius: 10px;
+      padding: 14px 16px;
+      margin: 12px 0 18px;
+      color: #e2e8f0;
+    }
+
+    .options {
+      display: flex;
+      flex-direction: column;
+      gap: 11px;
+    }
+
+    .opt-btn {
+      width: 100%;
+      text-align: left;
+      padding: 14px 16px;
+      border-radius: 12px;
+      border: 1px solid rgba(148, 163, 184, 0.25);
+      background: var(--card-2);
+      color: var(--text);
+      font-size: 0.95rem;
+      cursor: pointer;
+      transition: transform 0.12s ease, border-color 0.15s ease, background 0.15s ease;
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
+    }
+
+    .opt-btn:hover:not(:disabled) {
+      border-color: var(--accent);
+      transform: translateY(-1px);
+    }
+
+    .opt-btn:disabled {
+      cursor: default;
+      opacity: 0.95;
+    }
+
+    .opt-key {
+      font-weight: 700;
+      color: var(--accent);
+      min-width: 22px;
+    }
+
+    .opt-btn.correct {
+      background: rgba(34, 197, 94, 0.18);
+      border-color: var(--accent-2);
+    }
+
+    .opt-btn.wrong {
+      background: rgba(239, 68, 68, 0.18);
+      border-color: var(--danger);
+    }
+
+    .feedback {
+      margin-top: 16px;
+      padding: 14px 16px;
+      border-radius: 12px;
+      border: 1px solid var(--line);
+      background: var(--bg-soft);
+    }
+
+    .feedback.ok {
+      border-color: rgba(34, 197, 94, 0.5);
+      background: rgba(34, 197, 94, 0.1);
+    }
+
+    .feedback.bad {
+      border-color: rgba(239, 68, 68, 0.5);
+      background: rgba(239, 68, 68, 0.1);
+    }
+
+    .actions {
+      margin-top: 18px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      justify-content: flex-end;
+    }
+
+    .btn {
+      padding: 11px 18px;
+      border-radius: 10px;
+      border: 1px solid transparent;
+      font-size: 0.92rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: opacity 0.15s ease, transform 0.12s ease;
+    }
+
+    .btn:hover {
+      opacity: 0.94;
+      transform: translateY(-1px);
+    }
+
+    .btn-primary {
+      background: var(--accent);
+      color: #062033;
+    }
+
+    .btn-success {
+      background: var(--accent-2);
+      color: #052e16;
+    }
+
+    .btn-secondary {
+      background: var(--bg-soft);
+      color: var(--text);
+      border-color: var(--line);
+    }
+
+    .summary-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 12px;
+      margin: 16px 0;
+    }
+
+    .stat-box {
+      background: var(--bg-soft);
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 14px;
+    }
+
+    .stat-box .num {
+      font-size: 1.45rem;
+      font-weight: 800;
+      color: var(--accent);
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 14px;
+      font-size: 0.88rem;
+    }
+
+    th, td {
+      padding: 10px 12px;
+      border-bottom: 1px solid var(--line);
+      text-align: left;
+    }
+
+    th {
+      color: var(--muted);
+      font-size: 0.78rem;
+      text-transform: uppercase;
+    }
+
+    pre.rekap-box {
+      background: var(--bg-soft);
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 14px;
+      white-space: pre-wrap;
+      font-size: 0.85rem;
+      color: #e2e8f0;
+      margin-top: 12px;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    @media print {
+      body {
+        background: #fff;
+        color: #000;
+      }
+      .topbar, .actions, .btn {
+        display: none !important;
+      }
+      .card {
+        box-shadow: none;
+        border: 1px solid #ccc;
+        background: #fff;
+        color: #000;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header class="topbar">
+      <div class="topbar-top">
+        <div class="brand">
+          <h1>NETVENTURE: TKJ ENTERPRISE QUEST</h1>
+          <p>Penilaian Akhir Semester (PAS) — Kreativitas, Inovasi, &amp; Kewirausahaan (Konsentrasi TKJ/TJKT)</p>
+        </div>
+        <button class="btn btn-secondary" id="resetTopBtn" type="button">Reset Ulang</button>
+      </div>
+
+      <div class="hud">
+        <div class="hud-box">
+          <div class="hud-label">Level Aktif</div>
+          <div class="hud-value" id="hudLevel">Level 1 / 4</div>
+        </div>
+        <div class="hud-box">
+          <div class="hud-label">Misi</div>
+          <div class="hud-value" id="hudMission">0 / 17</div>
+        </div>
+        <div class="hud-box">
+          <div class="hud-label">Bobot Misi Ini</div>
+          <div class="hud-value" id="hudWeight">10 Poin</div>
+        </div>
+        <div class="hud-box">
+          <div class="hud-label">Total Poin</div>
+          <div class="hud-value" id="hudScore">0 / 300</div>
+        </div>
+      </div>
+
+      <div class="progress-wrap" aria-label="Kemajuan Misi">
+        <div class="progress-bar" id="progressBar"></div>
+      </div>
+    </header>
+
+    <div class="level-pills" id="levelPills">
+      <span class="pill active" data-pill="1">Level 1: Scout &amp; Feasibility (10 Poin/Misi)</span>
+      <span class="pill" data-pill="2">Level 2: SWOT &amp; Pivot (15 Poin/Misi)</span>
+      <span class="pill" data-pill="3">Level 3: BMC Architect (20 Poin/Misi)</span>
+      <span class="pill" data-pill="4">Level 4: IP Shield &amp; Launch (25 Poin/Misi)</span>
+    </div>
+
+    <section class="card" id="startScreen">
+      <span class="badge">ASESMEN SUMATIF AKHIR SEMESTER</span>
+      <h2 style="margin: 10px 0 8px;">Selamat Datang, Calon Founder &amp; Lead Network Engineer!</h2>
+      <p style="color: var(--muted); margin: 0 0 12px;">
+        Selesaikan <strong>17 misi</strong> yang terbagi dalam <strong>4 level berjenjang</strong> dengan bobot poin berbeda
+        (<strong>10, 15, 20, dan 25 poin per misi</strong>; total maksimal <strong>300 poin</strong>, dikonversi ke skala <strong>0–100</strong>).
+      </p>
+
+      <div class="form-grid">
+        <div>
+          <label for="studentName">Nama Lengkap Siswa *</label>
+          <input type="text" id="studentName" placeholder="Contoh: Ahmad Fauzi" required />
+        </div>
+        <div>
+          <label for="studentClass">Kelas / Konsentrasi *</label>
+          <input type="text" id="studentClass" placeholder="Contoh: XII TKJ 1" required />
+        </div>
+        <div>
+          <label for="studentNumber">Nomor Absen / NIS *</label>
+          <input type="text" id="studentNumber" placeholder="Contoh: 05" required />
+        </div>
+      </div>
+
+      <div class="actions">
+        <button class="btn btn-primary" id="startGameBtn" type="button">Mulai Misi PAS</button>
+      </div>
+    </section>
+
+    <section class="card hidden" id="missionScreen">
+      <div class="mission-meta">
+        <span class="badge" id="missionLevelTag">LEVEL 1 • SCOUT &amp; FEASIBILITY CHECK</span>
+        <span class="pts-badge" id="missionPtsTag">Bobot: +10 Poin</span>
+      </div>
+      <h2 id="missionTitle" style="margin: 6px 0 8px;">Judul Misi</h2>
+      <div class="scenario" id="missionScenario">Skenario misi...</div>
+      <div class="options" id="optionsList"></div>
+      <div class="feedback hidden" id="feedbackBox"></div>
+      <div class="actions">
+        <button class="btn btn-success hidden" id="nextMissionBtn" type="button">Lanjut ke Misi Berikutnya</button>
+      </div>
+    </section>
+
+    <section class="card hidden" id="resultScreen">
+      <span class="badge">LAPORAN HASIL PAS</span>
+      <h2 style="margin: 10px 0 6px;">Misi Selesai! Rekap Nilai Akhir Semester</h2>
+      <p id="studentSummaryLine" style="color: var(--muted); margin: 0 0 12px;"></p>
+
+      <div class="summary-grid">
+        <div class="stat-box">
+          <div class="hud-label">Total Poin</div>
+          <div class="num" id="finalPoints">0 / 300</div>
+        </div>
+        <div class="stat-box">
+          <div class="hud-label">Nilai PAS (0–100)</div>
+          <div class="num" id="finalGrade">0.00</div>
+        </div>
+        <div class="stat-box">
+          <div class="hud-label">Predikat</div>
+          <div class="num" id="finalPredicate" style="font-size: 1.05rem;">-</div>
+        </div>
+        <div class="stat-box">
+          <div class="hud-label">Misi Tepat</div>
+          <div class="num" id="finalCorrect">0 / 17</div>
+        </div>
+      </div>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Level</th>
+            <th>Fokus Materi</th>
+            <th>Poin Diperoleh</th>
+            <th>Poin Maksimal</th>
+          </tr>
+        </thead>
+        <tbody id="levelBreakdownBody"></tbody>
+      </table>
+
+      <pre class="rekap-box" id="copyTextPreview"></pre>
+
+      <div class="actions">
+        <button class="btn btn-primary" id="copyRekapBtn" type="button">Salin Teks Rekap Nilai</button>
+        <button class="btn btn-secondary" id="printResultBtn" type="button">Cetak / Simpan PDF</button>
+        <button class="btn btn-secondary" id="playAgainBtn" type="button">Main Lagi</button>
+      </div>
+    </section>
+  </div>
+
+  <script>
+    const LEVELS_INFO = {
+      1: { name: "Scout & Feasibility Check", focus: "Peluang Usaha TKJ & Analisis Kelayakan Usaha", points: 10, max: 40 },
+      2: { name: "SWOT & Strategic Pivot", focus: "Analisis Kelayakan SWOT & Evaluasi Strategi", points: 15, max: 60 },
+      3: { name: "Business Model Architect", focus: "Jenis Model Bisnis & 9 Komponen BMC", points: 20, max: 100 },
+      4: { name: "IP Shield & Final Launch", focus: "Perlindungan HAKI & Integrasi Bisnis", points: 25, max: 100 }
+    };
+
+    const MISSIONS = [
+      {
+        level: 1, points: 10,
+        title: "Misi 1.1 — Radar Peluang Sekolah & UKM",
+        scenario: "Sebuah sekolah menengah membutuhkan pengelolaan sistem manajemen pembelajaran online dan data peserta didik, sementara toko-toko sekitar tidak memiliki staf IT internal. Anda harus menentukan arah peluang usaha awal.",
+        options: [
+          { key: "A", text: "Membuka layanan teknologi pendidikan untuk sekolah dan konsultan IT bagi bisnis sekitar dengan memanfaatkan keahlian TKJ." },
+          { key: "B", text: "Membeli pabrik pembuatan chip silikon secara langsung tanpa riset permintaan pasar." },
+          { key: "C", text: "Menutup peluang kerja sama eksternal dan hanya menunggu pesanan insidental tanpa survei." }
+        ],
+        correct: "A",
+        rationale: "Tepat! Menemukan peluang usaha potensial TKJ dilakukan dengan mengidentifikasi kebutuhan pasar, mengikuti tren teknologi, dan memanfaatkan keahlian yang dimiliki."
+      },
+      {
+        level: 1, points: 10,
+        title: "Misi 1.2 — Gerbang Sebelum Mengucurkan Modal",
+        scenario: "Seorang rekan mengajak menyetor seluruh tabungan untuk membangun jaringan RT/RW net tanpa mengkaji calon pelanggan, pesaing, maupun biaya operasional.",
+        options: [
+          { key: "A", text: "Menyetujui penyetoran modal segera karena usaha jaringan pasti langsung untung besar." },
+          { key: "B", text: "Melakukan analisis kelayakan usaha terlebih dahulu untuk membantu mengambil keputusan tepat sebelum menginvestasikan waktu, tenaga, dan dana." },
+          { key: "C", text: "Meniru mentah-mentah harga kompetitor tanpa menghitung proyeksi arus kas." }
+        ],
+        correct: "B",
+        rationale: "Tepat! Tujuan utama analisis kelayakan usaha adalah membantu calon pengusaha mengambil keputusan tepat sebelum menginvestasikan waktu, tenaga, dan sumber daya finansial."
+      },
+      {
+        level: 1, points: 10,
+        title: "Misi 1.3 — Menyusun Urutan Studi Kelayakan",
+        scenario: "Anda diminta menyusun laporan kelayakan jasa perawatan dan keamanan jaringan kantor. Anda harus menempatkan penghitungan biaya awal, anggaran operasional, dan analisis arus kas pada tahapan yang tepat.",
+        options: [
+          { key: "A", text: "Memasukkannya ke dalam studi keuangan." },
+          { key: "B", text: "Memasukkannya ke dalam analisis keberlanjutan dan lingkungan." },
+          { key: "C", text: "Menempatkannya sebelum mendefinisikan tujuan dan visi usaha." }
+        ],
+        correct: "A",
+        rationale: "Tepat! Studi keuangan meliputi penghitungan biaya awal, perencanaan anggaran operasional, proyeksi pendapatan, penilaian profitabilitas, analisis arus kas, estimasi neraca, dan sumber modal."
+      },
+      {
+        level: 1, points: 10,
+        title: "Misi 1.4 — Langkah Penutup Jika Dinyatakan Layak",
+        scenario: "Seluruh temuan studi pasar, teknis/operasional, keuangan, risiko, dan dampak lingkungan menunjukkan usaha jasa instalasi jaringan layak dijalankan.",
+        options: [
+          { key: "A", text: "Menghentikan perencanaan karena studi kelayakan sudah selesai." },
+          { key: "B", text: "Menyusun rencana bisnis yang rinci mencakup strategi pemasaran, rencana operasional, proyeksi keuangan, dan pengembangan bisnis." },
+          { key: "C", text: "Mengabaikan aspek dampak sosial dan lingkungan di masa depan." }
+        ],
+        correct: "B",
+        rationale: "Tepat! Jika usaha dinyatakan layak, langkah terakhir adalah membuat rencana bisnis yang rinci termasuk strategi pemasaran, rencana operasional, proyeksi keuangan, dan pengembangan bisnis."
+      },
+      {
+        level: 2, points: 15,
+        title: "Misi 2.1 — Membedakan Faktor Internal vs Eksternal",
+        scenario: "Usaha layanan keamanan jaringan Anda memiliki tim teknisi berpengalaman tinggi (1), namun menghadapi persaingan ketat dan perubahan regulasi data yang merugikan (2).",
+        options: [
+          { key: "A", text: "(1) adalah strengths (kekuatan internal) dan (2) adalah threats (ancaman eksternal)." },
+          { key: "B", text: "(1) adalah opportunities (peluang eksternal) dan (2) adalah weaknesses (kelemahan internal)." },
+          { key: "C", text: "Keduanya merupakan weaknesses karena berasal dari luar perusahaan." }
+        ],
+        correct: "A",
+        rationale: "Tepat! Keahlian khusus dan SDM berkualitas merupakan kekuatan internal (strengths), sedangkan persaingan intensif dan perubahan regulasi merupakan ancaman eksternal (threats)."
+      },
+      {
+        level: 2, points: 15,
+        title: "Misi 2.2 — Menambal Kerentanan Internal",
+        scenario: "Dalam audit internal usaha perakitan PC dan jaringan, ditemukan kurangnya sumber daya finansial serta alur kerja teknisi yang lambat dan rentan kesalahan.",
+        options: [
+          { key: "A", text: "Mencatat kondisi tersebut sebagai weaknesses untuk diperbaiki agar tidak menghambat kesuksesan usaha." },
+          { key: "B", text: "Mencatatnya sebagai opportunities karena belum dimanfaatkan pesaing." },
+          { key: "C", text: "Mengabaikannya karena faktor eksternal dianggap tidak berpengaruh." }
+        ],
+        correct: "A",
+        rationale: "Tepat! Kekurangan sumber daya finansial, kurangnya keahlian/pengalaman, atau sistem operasional kurang efisien merupakan kelemahan internal (weaknesses)."
+      },
+      {
+        level: 2, points: 15,
+        title: "Misi 2.3 — Menangkap Peluang Eksternal Baru",
+        scenario: "Permintaan layanan smart home berbasis jaringan meningkat tajam seiring perkembangan teknologi baru dan perubahan tren konsumen yang belum digarap pesaing lokal.",
+        options: [
+          { key: "A", text: "Menilai kondisi tersebut sebagai threats dan menarik diri dari pasar." },
+          { key: "B", text: "Memetakannya sebagai opportunities eksternal yang dapat mendorong pertumbuhan usaha." },
+          { key: "C", text: "Menganggapnya sebagai strengths internal perusahaan." }
+        ],
+        correct: "B",
+        rationale: "Tepat! Perkembangan teknologi baru, perubahan tren pasar/konsumen, kenaikan permintaan, serta peluang yang belum dimanfaatkan pesaing merupakan opportunities."
+      },
+      {
+        level: 2, points: 15,
+        title: "Misi 2.4 — Memprioritaskan Tindakan Strategis",
+        scenario: "Anda telah mendaftar seluruh butir SWOT usaha jasa jaringan Anda. Kini Anda harus menentukan langkah evaluasi dan strategi yang paling efektif.",
+        options: [
+          { key: "A", text: "Mengevaluasi signifikansi tiap faktor, merumuskan strategi memaksimalkan kekuatan, mengatasi kelemahan, memanfaatkan peluang, mengelola ancaman, lalu memprioritaskan tindakan." },
+          { key: "B", text: "Memilih satu strategi acak tanpa menilai dampak faktor terhadap keberhasilan usaha." },
+          { key: "C", text: "Hanya fokus pada ancaman tanpa menyusun rencana pemanfaatan peluang." }
+        ],
+        correct: "A",
+        rationale: "Tepat! Evaluasi dan strategi SWOT mencakup evaluasi signifikansi & dampak faktor, perumusan strategi S/W/O/T, dan pemrioritasan tindakan."
+      },
+      {
+        level: 3, points: 20,
+        title: "Misi 3.1 — Memilih Model Bisnis Sesuai Modal & Risiko",
+        scenario: "Anda baru merintis usaha aksesori jaringan dengan modal kecil dan ingin risiko minimal tanpa menyewa gudang, sementara rekan Anda punya modal besar dan ingin memakai merek terkenal yang sudah berjalan meski profitnya minimal karena mengikuti sistem pemilik brand.",
+        options: [
+          { key: "A", text: "Anda memakai model dropship (kirim langsung dari supplier) dan rekan Anda memakai model waralaba." },
+          { key: "B", text: "Anda memakai model manufaktur pabrik besar dan rekan Anda memakai model dropship." },
+          { key: "C", text: "Keduanya wajib menggunakan model waralaba tanpa memperhitungkan modal dan aturan pemilik merek." }
+        ],
+        correct: "A",
+        rationale: "Tepat! Dropship cocok untuk modal kecil dan risiko minim tanpa gudang, sedangkan waralaba berisiko kecil namun butuh modal relatif besar dengan profit minimal karena mengikuti sistem pemilik brand."
+      },
+      {
+        level: 3, points: 20,
+        title: "Misi 3.2 — Merancang Monetisasi Platform & Perangkat",
+        scenario: "Anda mengembangkan platform marketplace jual-beli perangkat IT (B2B/B2C) yang awalnya gratis untuk menarik pengguna, serta menjual perangkat cetak khusus yang membutuhkan tinta isi ulang eksklusif secara berkelanjutan.",
+        options: [
+          { key: "A", text: "Marketplace dapat meraih profit lewat premium member, iklan, atau komisi transaksi; sedangkan strategi tinta eksklusif berkelanjutan mencerminkan model razor blade." },
+          { key: "B", text: "Marketplace dilarang menarik komisi transaksi dan model razor blade harus membolehkan produk pengganti merek lain." },
+          { key: "C", text: "Keduanya identik dengan model one-for-one yang mewajibkan donasi setiap barang terjual." }
+        ],
+        correct: "A",
+        rationale: "Tepat! Marketplace dapat memonetisasi lewat premium member, fitur iklan, atau komisi transaksi; model razor blade menuntut produk utama dan pendukung saling melengkapi serta tidak tergantikan merek lain."
+      },
+      {
+        level: 3, points: 20,
+        title: "Misi 3.3 — Mengombinasikan Paket, Langganan, & Donasi Sosial",
+        scenario: "Sebuah perusahaan TI menawarkan paket router + kabel + jasa setting dengan harga paket lebih murah untuk menaikkan volume jual meski margin lebih tipis (1), platform cloud menarik biaya bulanan/tahunan (2), dan usaha sosial mendonasikan satu unit perangkat edukasi tiap satu unit terjual (3).",
+        options: [
+          { key: "A", text: "(1) Model bundling, (2) Model langganan, dan (3) Model one-for-one." },
+          { key: "B", text: "(1) Model distributor, (2) Model one-for-one, dan (3) Model bundling." },
+          { key: "C", text: "(1) Model langganan, (2) Model bundling, dan (3) Model distributor." }
+        ],
+        correct: "A",
+        rationale: "Tepat! Bundling menjual dua/lebih produk bersama dengan harga lebih rendah (volume naik, margin bisa menyusut), langganan memakai biaya berulang bulanan/tahunan, dan one-for-one mendonasikan satu barang tiap satu terjual."
+      },
+      {
+        level: 3, points: 20,
+        title: "Misi 3.4 — Memetakan Value Propositions, Channels, & Customer Segments",
+        scenario: "Pada kanvas BMC usaha jasa instalasi dan pemeliharaan jaringan kantor, Anda harus menetapkan target pelanggan beserta kebutuhannya (1), keunikan solusi dan pemecahan masalah darurat pelanggan (2), serta saluran komunikasi dan penyampaian layanan online/offline (3).",
+        options: [
+          { key: "A", text: "(1) Customer segments, (2) Value propositions, dan (3) Channels." },
+          { key: "B", text: "(1) Cost structure, (2) Key partnerships, dan (3) Key resources." },
+          { key: "C", text: "(1) Channels, (2) Customer segments, dan (3) Value propositions." }
+        ],
+        correct: "A",
+        rationale: "Tepat! Customer segments menetapkan target pasar & kebutuhannya, value propositions menjelaskan keunikan, manfaat, & pemecahan masalah, dan channels mengatur saluran distribusi & komunikasi."
+      },
+      {
+        level: 3, points: 20,
+        title: "Misi 3.5 — Menyusun Pilar Operasional & Finansial BMC",
+        scenario: "Untuk melengkapi 9 komponen BMC usaha layanan IT Anda, tentukan komponen yang mengatur sumber pendapatan & strategi harga (1), aset fisik/intelektual/SDM/keuangan (2), proses operasional krusial (3), mitra penyedia sumber daya/distribusi (4), serta rincian biaya produksi/pemasaran/pengiriman/infrastruktur (5).",
+        options: [
+          { key: "A", text: "(1) Revenue streams, (2) Key resources, (3) Key activities, (4) Key partnerships, dan (5) Cost structure." },
+          { key: "B", text: "(1) Cost structure, (2) Key activities, (3) Key partnerships, (4) Key resources, dan (5) Revenue streams." },
+          { key: "C", text: "(1) Key partnerships, (2) Revenue streams, (3) Cost structure, (4) Key resources, dan (5) Key activities." }
+        ],
+        correct: "A",
+        rationale: "Tepat! Komponen tersebut berturut-turut adalah revenue streams, key resources, key activities, key partnerships, dan cost structure."
+      },
+      {
+        level: 4, points: 25,
+        title: "Misi 4.1 — Mengamankan Kode Program & Karya Kreatif",
+        scenario: "Tim Anda merancang aplikasi pemantauan jaringan, modul buku panduan konfigurasi, dan media desain kreatif. Anda ingin mencegah pembajakan serta memiliki kontrol eksklusif atas penggunaan, reproduksi, distribusi, dan pemanfaatan komersialnya.",
+        options: [
+          { key: "A", text: "Memahami dan mendaftarkan perlindungan HAKI (khususnya hak cipta untuk karya seperti perangkat lunak komputer dan buku) agar aman berinovasi dan membagikan karya." },
+          { key: "B", text: "Mempublikasikan seluruh source code dan aset secara terbuka tanpa hak legal apa pun karena HAKI tidak berlaku untuk perangkat lunak." },
+          { key: "C", text: "Menggunakan HAKI hanya untuk membatasi inovasi internal tanpa tujuan perlindungan hukum." }
+        ],
+        correct: "A",
+        rationale: "Tepat! HAKI memberi perlindungan hukum serta kontrol eksklusif atas penggunaan, reproduksi, distribusi, dan pemanfaatan komersial, termasuk hak cipta untuk perangkat lunak komputer dan buku."
+      },
+      {
+        level: 4, points: 25,
+        title: "Misi 4.2 — Menyelaraskan Inovasi BMC & Perlindungan Hukum",
+        scenario: "Usaha layanan cloud dan perangkat jaringan Anda mulai berkembang pesat, sehingga Anda perlu melakukan eksperimen, inovasi, dan perbaikan model bisnis sekaligus menjaga keamanan kekayaan intelektual (seperti penemuan teknologi, merek dagang, atau rahasia dagang).",
+        options: [
+          { key: "A", text: "Memanfaatkan visualisasi BMC untuk bereksperimen/berinovasi pada model bisnis sambil mengamankan aset kekayaan intelektual melalui HAKI." },
+          { key: "B", text: "Membekukan seluruh perbaikan model bisnis karena BMC hanya dipakai sekali saat awal berdiri." },
+          { key: "C", text: "Mengabaikan merek dagang, rahasia dagang, dan penemuan teknologi karena bukan bagian dari kekayaan intelektual." }
+        ],
+        correct: "A",
+        rationale: "Tepat! BMC memudahkan eksperimen, inovasi, dan perbaikan model bisnis, sedangkan HAKI melindungi kekayaan intelektual seperti penemuan teknologi, merek dagang, dan rahasia dagang."
+      },
+      {
+        level: 4, points: 25,
+        title: "Misi 4.3 — Kasus Krisis Multi-Aspek (Kelayakan, SWOT, & BMC)",
+        scenario: "Sebuah usaha penyedia jaringan desa mengalami lonjakan biaya infrastruktur server dan perangkat, sementara pesaing mulai menawarkan harga lebih murah dan pelanggan menuntut kejelasan manfaat layanan.",
+        options: [
+          { key: "A", text: "Meninjau cost structure (biaya infrastruktur & model biaya rendah/diferensiasi), memperkuat value propositions (manfaat & pemecahan masalah), serta mengelola ancaman (threats) dan risiko secara terukur." },
+          { key: "B", text: "Menaikkan biaya infrastruktur tanpa mengevaluasi cost structure maupun value propositions." },
+          { key: "C", text: "Menutup usaha tanpa mengevaluasi faktor kekuatan, peluang, maupun rencana bisnis." }
+        ],
+        correct: "A",
+        rationale: "Tepat! Solusi terukur menggabungkan evaluasi cost structure, penguatan value propositions, serta pengelolaan ancaman dan risiko usaha."
+      },
+      {
+        level: 4, points: 25,
+        title: "Misi 4.4 — Final Boss: Peluncuran Usaha TKJ Berkelanjutan",
+        scenario: "Anda mempresentasikan peluncuran usaha solusi jaringan & teknologi pendidikan di hadapan dewan penilai PAS. Penilai meminta bukti kesiapan menyeluruh dari hulu ke hilir.",
+        options: [
+          { key: "A", text: "Menunjukkan kesiapan berbasis riset kebutuhan pasar & keahlian TKJ, studi kelayakan & SWOT terukur, rencana bisnis rinci, kanvas BMC 9 blok yang saling terkait, serta perlindungan HAKI." },
+          { key: "B", text: "Mengandalkan keberuntungan semata tanpa studi kelayakan, tanpa model bisnis, dan tanpa perlindungan HAKI." },
+          { key: "C", text: "Menjual produk tiruan tanpa izin dan tanpa menghitung biaya maupun pendapatan." }
+        ],
+        correct: "A",
+        rationale: "Tepat! Kesiapan usaha yang matang memadukan analisis peluang & keahlian TKJ, kelayakan & SWOT, rencana bisnis, BMC 9 komponen, serta perlindungan HAKI."
+      }
+    ];
+
+    let state = {
+      student: { name: "", className: "", number: "" },
+      index: 0,
+      score: 0,
+      correctCount: 0,
+      levelScores: { 1: 0, 2: 0, 3: 0, 4: 0 },
+      answered: false
+    };
+
+    const el = {
+      startScreen: document.getElementById("startScreen"),
+      missionScreen: document.getElementById("missionScreen"),
+      resultScreen: document.getElementById("resultScreen"),
+      studentName: document.getElementById("studentName"),
+      studentClass: document.getElementById("studentClass"),
+      studentNumber: document.getElementById("studentNumber"),
+      startGameBtn: document.getElementById("startGameBtn"),
+      hudLevel: document.getElementById("hudLevel"),
+      hudMission: document.getElementById("hudMission"),
+      hudWeight: document.getElementById("hudWeight"),
+      hudScore: document.getElementById("hudScore"),
+      progressBar: document.getElementById("progressBar"),
+      levelPills: document.querySelectorAll("[data-pill]"),
+      missionLevelTag: document.getElementById("missionLevelTag"),
+      missionPtsTag: document.getElementById("missionPtsTag"),
+      missionTitle: document.getElementById("missionTitle"),
+      missionScenario: document.getElementById("missionScenario"),
+      optionsList: document.getElementById("optionsList"),
+      feedbackBox: document.getElementById("feedbackBox"),
+      nextMissionBtn: document.getElementById("nextMissionBtn"),
+      studentSummaryLine: document.getElementById("studentSummaryLine"),
+      finalPoints: document.getElementById("finalPoints"),
+      finalGrade: document.getElementById("finalGrade"),
+      finalPredicate: document.getElementById("finalPredicate"),
+      finalCorrect: document.getElementById("finalCorrect"),
+      levelBreakdownBody: document.getElementById("levelBreakdownBody"),
+      copyTextPreview: document.getElementById("copyTextPreview"),
+      copyRekapBtn: document.getElementById("copyRekapBtn"),
+      printResultBtn: document.getElementById("printResultBtn"),
+      playAgainBtn: document.getElementById("playAgainBtn"),
+      resetTopBtn: document.getElementById("resetTopBtn")
+    };
+
+    function updateHUD() {
+      const current = MISSIONS[Math.min(state.index, MISSIONS.length - 1)];
+      const activeLevel = current ? current.level : 4;
+      el.hudLevel.textContent = `Level ${activeLevel} / 4`;
+      el.hudMission.textContent = `${Math.min(state.index + (state.answered ? 1 : 0), MISSIONS.length)} / ${MISSIONS.length}`;
+      el.hudWeight.textContent = `${current.points} Poin`;
+      el.hudScore.textContent = `${state.score} / 300`;
+
+      const pct = ((state.index + (state.answered ? 1 : 0)) / MISSIONS.length) * 100;
+      el.progressBar.style.width = `${pct}%`;
+
+      el.levelPills.forEach((pill) => {
+        const lvl = Number(pill.dataset.pill);
+        pill.classList.remove("active", "done");
+        if (state.levelScores[lvl] === LEVELS_INFO[lvl].max) {
+          pill.classList.add("done");
+        } else if (lvl === activeLevel) {
+          pill.classList.add("active");
+        }
+      });
+    }
+
+    function renderMission() {
+      const m = MISSIONS[state.index];
+      const info = LEVELS_INFO[m.level];
+      state.answered = false;
+
+      el.missionLevelTag.textContent = `LEVEL ${m.level} • ${info.name.toUpperCase()}`;
+      el.missionPtsTag.textContent = `Bobot: +${m.points} Poin`;
+      el.missionTitle.textContent = m.title;
+      el.missionScenario.textContent = m.scenario;
+      el.feedbackBox.className = "feedback hidden";
+      el.feedbackBox.textContent = "";
+      el.nextMissionBtn.classList.add("hidden");
+      el.nextMissionBtn.textContent =
+        state.index === MISSIONS.length - 1 ? "Lihat Rekap Nilai PAS" : "Lanjut ke Misi Berikutnya";
+
+      el.optionsList.innerHTML = "";
+      m.options.forEach((opt) => {
+        const btn = document.createElement("button");
+        btn.type = "button";
+        btn.className = "opt-btn";
+        btn.innerHTML = `<span class="opt-key">${opt.key}.</span><span>${opt.text}</span>`;
+        btn.addEventListener("click", () => selectOption(opt.key, btn));
+        el.optionsList.appendChild(btn);
+      });
+
+      updateHUD();
+    }
+
+    function selectOption(chosenKey, clickedBtn) {
+      if (state.answered) return;
+      state.answered = true;
+
+      const m = MISSIONS[state.index];
+      const isRight = chosenKey === m.correct;
+      const allBtns = el.optionsList.querySelectorAll(".opt-btn");
+
+      allBtns.forEach((b) => {
+        b.disabled = true;
+        const k = b.querySelector(".opt-key").textContent.replace(".", "").trim();
+        if (k === m.correct) {
+          b.classList.add("correct");
+        }
+      });
+
+      if (isRight) {
+        state.score += m.points;
+        state.correctCount += 1;
+        state.levelScores[m.level] += m.points;
+        el.feedbackBox.className = "feedback ok";
+        el.feedbackBox.innerHTML = `<strong>Keputusan Tepat (+${m.points} Poin):</strong> ${m.rationale}`;
+      } else {
+        clickedBtn.classList.add("wrong");
+        el.feedbackBox.className = "feedback bad";
+        el.feedbackBox.innerHTML = `<strong>Keputusan Kurang Tepat (0 Poin) — Kunci: ${m.correct}.</strong> ${m.rationale}`;
+      }
+
+      el.feedbackBox.classList.remove("hidden");
+      el.nextMissionBtn.classList.remove("hidden");
+      updateHUD();
+    }
+
+    function getPredicate(grade) {
+      if (grade >= 85) return "Sangat Mahir (Master TJKT)";
+      if (grade >= 70) return "Kompeten (Ready to Launch)";
+      return "Perlu Remedial";
+    }
+
+    function showResult() {
+      el.missionScreen.classList.add("hidden");
+      el.resultScreen.classList.remove("hidden");
+      el.progressBar.style.width = "100%";
+
+      const grade = (state.score / 300) * 100;
+      const gradeFormatted = grade.toFixed(2);
+      const predicate = getPredicate(grade);
+
+      el.studentSummaryLine.textContent =
+        `Nama: ${state.student.name} | Kelas: ${state.student.className} | Absen/NIS: ${state.student.number}`;
+      el.finalPoints.textContent = `${state.score} / 300`;
+      el.finalGrade.textContent = gradeFormatted;
+      el.finalPredicate.textContent = predicate;
+      el.finalCorrect.textContent = `${state.correctCount} / ${MISSIONS.length}`;
+
+      el.levelBreakdownBody.innerHTML = "";
+      [1, 2, 3, 4].forEach((lvl) => {
+        const info = LEVELS_INFO[lvl];
+        const tr = document.createElement("tr");
+        tr.innerHTML = `
+          <td><strong>Level ${lvl}</strong> (${info.name})</td>
+          <td>${info.focus}</td>
+          <td><strong>${state.levelScores[lvl]}</strong></td>
+          <td>${info.max}</td>
+        `;
+        el.levelBreakdownBody.appendChild(tr);
+      });
+
+      const rekapText = [
+        "REKAP HASIL PAS - NETVENTURE: TKJ ENTERPRISE QUEST",
+        `Nama      : ${state.student.name}`,
+        `Kelas     : ${state.student.className}`,
+        `Absen/NIS : ${state.student.number}`,
+        `Misi Tepat: ${state.correctCount}/${MISSIONS.length}`,
+        `Level 1   : ${state.levelScores[1]}/${LEVELS_INFO[1].max} poin`,
+        `Level 2   : ${state.levelScores[2]}/${LEVELS_INFO[2].max} poin`,
+        `Level 3   : ${state.levelScores[3]}/${LEVELS_INFO[3].max} poin`,
+        `Level 4   : ${state.levelScores[4]}/${LEVELS_INFO[4].max} poin`,
+        `Total Poin: ${state.score}/300`,
+        `Nilai PAS : ${gradeFormatted} (${predicate})`
+      ].join("\n");
+
+      el.copyTextPreview.textContent = rekapText;
+    }
+
+    function resetAll() {
+      state = {
+        student: { name: "", className: "", number: "" },
+        index: 0,
+        score: 0,
+        correctCount: 0,
+        levelScores: { 1: 0, 2: 0, 3: 0, 4: 0 },
+        answered: false
+      };
+      el.missionScreen.classList.add("hidden");
+      el.resultScreen.classList.add("hidden");
+      el.startScreen.classList.remove("hidden");
+      el.progressBar.style.width = "0%";
+      el.hudLevel.textContent = "Level 1 / 4";
+      el.hudMission.textContent = "0 / 17";
+      el.hudWeight.textContent = "10 Poin";
+      el.hudScore.textContent = "0 / 300";
+      el.levelPills.forEach((pill, i) => {
+        pill.classList.remove("active", "done");
+        if (i === 0) pill.classList.add("active");
+      });
+    }
+
+    el.startGameBtn.addEventListener("click", () => {
+      const name = el.studentName.value.trim();
+      const cls = el.studentClass.value.trim();
+      const num = el.studentNumber.value.trim();
+
+      if (!name || !cls || !num) {
+        alert("Mohon lengkapi Nama Lengkap, Kelas, dan Nomor Absen/NIS terlebih dahulu.");
+        return;
+      }
+
+      state.student = { name, className: cls, number: num };
+      el.startScreen.classList.add("hidden");
+      el.resultScreen.classList.add("hidden");
+      el.missionScreen.classList.remove("hidden");
+      renderMission();
+    });
+
+    el.nextMissionBtn.addEventListener("click", () => {
+      if (state.index < MISSIONS.length - 1) {
+        state.index += 1;
+        renderMission();
+      } else {
+        showResult();
+      }
+    });
+
+    el.copyRekapBtn.addEventListener("click", async () => {
+      const text = el.copyTextPreview.textContent;
+      try {
+        await navigator.clipboard.writeText(text);
+        el.copyRekapBtn.textContent = "Tersalin!";
+        setTimeout(() => { el.copyRekapBtn.textContent = "Salin Teks Rekap Nilai"; }, 1800);
+      } catch {
+        const ta = document.createElement("textarea");
+        ta.value = text;
+        document.body.appendChild(ta);
+        ta.select();
+        document.execCommand("copy");
+        document.body.removeChild(ta);
+        el.copyRekapBtn.textContent = "Tersalin!";
+        setTimeout(() => { el.copyRekapBtn.textContent = "Salin Teks Rekap Nilai"; }, 1800);
+      }
+    });
+
+    el.printResultBtn.addEventListener("click", () => window.print());
+    el.playAgainBtn.addEventListener("click", resetAll);
+    el.resetTopBtn.addEventListener("click", resetAll);
+  </script>
+</body>
+</html>
